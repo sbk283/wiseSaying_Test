@@ -12,6 +12,8 @@ public class MemberController {
 
     Scanner sc;
     Member loginedMember;
+    boolean loggedIn = false;
+    Member member;
 
     public MemberController(Scanner sc, Member loginedMember) {
         this.sc= sc;

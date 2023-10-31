@@ -1,7 +1,7 @@
 import article.controller.ArticleController;
 import article.entity.Article;
-import article.entity.Member;
 import member.controller.MemberController;
+import member.entity.Member;
 import system.SystemController;
 
 import java.util.ArrayList;
@@ -47,9 +47,6 @@ public class App {
                     articleController.modify(sc);
                     break;
             }
-
         }
-        sc.close();
-        System.out.println("== 프로그램 종료 ==");
     }
 }

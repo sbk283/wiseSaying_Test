@@ -1,7 +1,7 @@
 package article.controller;
 
 import article.entity.Article;
-import article.entity.Member;
+import member.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
