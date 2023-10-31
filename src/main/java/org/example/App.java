@@ -1,19 +1,15 @@
-import article.controller.ArticleController;
-import article.entity.Article;
-import member.controller.MemberController;
-import member.entity.Member;
-import system.SystemController;
+package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import org.example.article.controller.ArticleController;
+import org.example.member.controller.MemberController;
+import org.example.member.entity.Member;
+import org.example.system.SystemController;
 
 public class App {
     Member loginedMember = null;
-    Scanner sc = new Scanner(System.in);
     public void run() {
-        ArticleController articleController = new ArticleController(sc, loginedMember);
-        MemberController memberController = new MemberController(sc, loginedMember);
+        ArticleController articleController = new ArticleController();
+        MemberController memberController = new MemberController(loginedMember);
         SystemController systemController = new SystemController();
 
         memberController.init();
@@ -21,9 +17,10 @@ public class App {
         System.out.println("== 명언앱 ==");
         while (true) {
             System.out.print("명령) ");
-            String command = sc.nextLine().trim();
+            String command = Container.getSc().nextLine().trim();
             switch (command) {
                 case "종료":
+                    systemController.exit();
                     return;
                 case "회원가입":
                     memberController.registor();
@@ -35,16 +32,16 @@ public class App {
                     memberController.logout();
                     break;
                 case "등록":
-                    articleController.create(sc);
+                    articleController.create();
                     break;
                 case "목록":
-                    articleController.list(sc);
+                    articleController.list();
                     break;
                 case "삭제":
-                    articleController.remove(sc);
+                    articleController.remove();
                     break;
                 case "수정":
-                    articleController.modify(sc);
+                    articleController.modify();
                     break;
             }
         }

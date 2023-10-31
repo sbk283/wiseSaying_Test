@@ -1,40 +1,39 @@
-package member.controller;
+package org.example.member.controller;
 
-import member.entity.Member;
-import util.Util;
+import org.example.Container;
+import org.example.member.entity.Member;
+import org.example.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class MemberController {
     List<Member> memberList = new ArrayList<>();
 
-    Scanner sc;
+
     Member loginedMember;
-    boolean loggedIn = false;
     Member member;
 
-    public MemberController(Scanner sc, Member loginedMember) {
-        this.sc= sc;
+    public MemberController(Member loginedMember) {
         this.loginedMember = loginedMember;
     }
     public void init() {
-        Member member1 = new Member(1, "user1", "1234",  Util.nowDateTime());
+        Member member1 = new Member(1, "admin", "",  Util.nowDateTime());
         memberList.add(member1);
-        Member member2 = new Member(2, "user2", "1234",  Util.nowDateTime());
+        Member member2 = new Member(2, "test1", "1234",  Util.nowDateTime());
         memberList.add(member2);
-        Member member3 = new Member(3, "user3", "1234",  Util.nowDateTime());
+        Member member3 = new Member(3, "user1", "1234",  Util.nowDateTime());
         memberList.add(member3);
     }
 
     public void registor () {
         System.out.print("가입하실 아이디를 입력해주세요) ");
-        String userId = sc.nextLine().trim();
+        String userId = Container.getSc().nextLine().trim();
         System.out.print("가입하실 비밀번호를 입력해주세요) ");
-        String password = sc.nextLine().trim();
+        String password = Container.getSc().nextLine().trim();
         System.out.print("비밀번호를 다시 한번 입력해주세요.) ");
-        String passwordConfirm = sc.nextLine().trim();
+        String passwordConfirm = Container.getSc().nextLine().trim();
 
         for (Member member : memberList) {
             if (member.getUserId().equals(userId)) {
@@ -57,41 +56,39 @@ public class MemberController {
     }
 
     public void login () {
-        if (loggedIn) {
+        if (Container.getLoginedMember() != null) {
             System.out.println("이미 로그인 상태입니다.");
         } else {
             System.out.print("아이디를 입력해주세요) ");
-            String userId = sc.nextLine().trim();
+            String userId = Container.getSc().nextLine().trim();
             System.out.print("비밀번호를 입력해주세요) ");
-            String password = sc.nextLine().trim();
+            String password = Container.getSc().nextLine().trim();
 
+            Member member = this.getMemberFindByUserId(userId);
             // 사용자 정보를 저장하는 리스트 또는 데이터베이스에서 사용자 정보를 가져와서 확인
-            for (Member member : memberList) {
-                if (member.getUserId().equals(userId) && member.getPassword().equals(password)) {
-                    loggedIn = true;
-                    break;
-                }
+            if (member == null) {
+                System.out.println("해당 회원이 존재하지 않습니다.");
+                return;
             }
-            if (loggedIn) {
-                System.out.println("로그인 성공! " + userId + "님 환영합니다!");
-                // 로그인 성공 후 실행할 코드를 추가하세요.
-            } else {
-                System.out.println("로그인 실패. 아이디 또는 비밀번호를 확인해주세요.");
+            if (!member.getPassword().equals(password)) {
+                System.out.println("비밀번호가 일치하지 않습니다.");
             }
+            Container.setLoginedMember(member);
+
+            System.out.println("로그인 성공! " + Container.getLoginedMember().getUserId() + "님 환영합니다!");
         }
     }
 
     public void logout() {
-        if (!loggedIn) {
+        if (Container.getLoginedMember() == null) {
             System.out.println("로그인 상태가 아닙니다.");
-        } else {
-            loggedIn = false;
-            System.out.println("정상적으로 로그아웃 처리가 완료되었습니다.");
+            return;
         }
+        Container.setLoginedMember(null);
+        System.out.println("정상적으로 로그아웃 처리가 완료되었습니다.");
     }
     private Member getMemberFindByUserId(String userId) {
-        for (int i = 0; i < memberList.size(); i++) {
-            Member member = memberList.get(i);
+        for (Member member : memberList) {
             if (member.getUserId().equals(userId)) {
                 return member;
             }
