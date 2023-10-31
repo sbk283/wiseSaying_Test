@@ -1,4 +1,4 @@
-package org.example.article.article;
+package article.entity;
 
 
 import lombok.AllArgsConstructor;
