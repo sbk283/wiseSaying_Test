@@ -17,6 +17,7 @@ public class Container {
     public static void init() {
         sc = new Scanner(System.in);
     }
+
     public static void close() {
         sc.close();
     }

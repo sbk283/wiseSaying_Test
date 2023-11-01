@@ -2,6 +2,7 @@ package org.example.article.controller;
 
 import org.example.Container;
 import org.example.article.entity.Article;
+import org.example.member.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,29 +29,37 @@ public class ArticleController {
         }
 
     public void list() {
-        System.out.println("번호 / 명언 / 작가");
-        System.out.println("-".repeat(30));
-        for (int i = articleList.size() - 1; i >= 0; i--) {
-            Article article = articleList.get(i);
-            System.out.printf("%d / %s / %s\n", article.getId(), article.getContent(), article.getAuthor());
+        if (articleList.isEmpty()) {
+            System.out.println("게시글이 없습니다.");
+        } else {
+            System.out.println("번호 / 명언 / 작가 / 작성자");
+            System.out.println("-".repeat(30));
+            for (int i = articleList.size() - 1; i >= 0; i--) {
+                Article article = articleList.get(i);
+                System.out.printf("%d / %s / %s \n", article.getId(), article.getContent(), article.getAuthor());
+            }
         }
-
     }
         public void remove () {
-            System.out.print("삭제할 번호를 입력해주세요) ");
-            boolean deleted = false;
-            long removeId = Long.parseLong(Container.getSc().nextLine().trim());
-            for (int i = 0; i < articleList.size(); i++) {
-                if (articleList.get(i).getId() == removeId) {
-                    articleList.remove(i);
-                    deleted = true;
-                    System.out.println(removeId + "번 명언이 삭제 되었습니다.");
-                    break;
+            if (articleList.isEmpty()) {
+                System.out.println("게시글이 없습니다.");
+            } else {
+                System.out.print("삭제할 번호를 입력해주세요) ");
+                boolean deleted = false;
+                long removeId = Long.parseLong(Container.getSc().nextLine().trim());
+                for (int i = 0; i < articleList.size(); i++) {
+                    if (articleList.get(i).getId() == removeId) {
+                        articleList.remove(i);
+                        deleted = true;
+                        System.out.println(removeId + "번 명언이 삭제 되었습니다.");
+                        break;
+                    }
+                }
+                if (!deleted) {
+                    System.out.println("선택하신 번호의 게시물이 존재하지 않습니다.");
                 }
             }
-            if (!deleted) {
-                System.out.println("선택하신 번호의 게시물이 존재하지 않습니다.");
-            }
+
         }
 
     public void modify() {

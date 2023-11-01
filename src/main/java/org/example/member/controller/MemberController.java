@@ -19,12 +19,12 @@ public class MemberController {
         this.loginedMember = loginedMember;
     }
     public void init() {
-        Member member1 = new Member(1, "admin", "",  Util.nowDateTime());
-        memberList.add(member1);
-        Member member2 = new Member(2, "test1", "1234",  Util.nowDateTime());
-        memberList.add(member2);
-        Member member3 = new Member(3, "user1", "1234",  Util.nowDateTime());
-        memberList.add(member3);
+        Member admin = new Member(1, "admin", "",  Util.nowDateTime());
+        memberList.add(admin);
+        Member test1 = new Member(2, "test1", "1234",  Util.nowDateTime());
+        memberList.add(test1);
+        Member user1 = new Member(3, "user1", "1234",  Util.nowDateTime());
+        memberList.add(user1);
     }
 
     public void registor () {
